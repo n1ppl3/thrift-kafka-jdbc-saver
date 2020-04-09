@@ -6,7 +6,6 @@ import org.springframework.retry.RetryCallback;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
 import ru.n1ppl3.thrift.kafka.jdbc.saver.entity.UserLogsRecord;
-import ru.n1ppl3.thrift.kafka.jdbc.saver.service.UserLogsService;
 
 import java.util.List;
 

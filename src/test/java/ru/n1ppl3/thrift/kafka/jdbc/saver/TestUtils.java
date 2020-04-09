@@ -38,7 +38,7 @@ public abstract class TestUtils {
         Map<String, Object> producerConfig = new LinkedHashMap<>();
         producerConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
 
-        Serializer<V> valueSerializer = new ThriftSerializer<V>();
+        Serializer<V> valueSerializer = new ThriftSerializer<>();
         var producerFactory = new DefaultKafkaProducerFactory<>(producerConfig, new StringSerializer(), valueSerializer);
 
         var kafkaTemplate = new KafkaTemplate<>(producerFactory);
