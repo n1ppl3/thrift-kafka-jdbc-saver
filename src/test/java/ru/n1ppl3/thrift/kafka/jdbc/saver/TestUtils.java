@@ -37,9 +37,14 @@ public abstract class TestUtils {
     public static <V extends TBase<V,?>> KafkaTemplate<String, V> kafkaTemplate(String bootstrapServers) {
         Map<String, Object> producerConfig = new LinkedHashMap<>();
         producerConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        return kafkaTemplate(producerConfig);
+    }
 
+
+    public static <V extends TBase<V,?>> KafkaTemplate<String, V> kafkaTemplate(Map<String, Object> producerProperties) {
+        Serializer<String> keySerializer = new StringSerializer();
         Serializer<V> valueSerializer = new ThriftSerializer<>();
-        var producerFactory = new DefaultKafkaProducerFactory<>(producerConfig, new StringSerializer(), valueSerializer);
+        var producerFactory = new DefaultKafkaProducerFactory<>(producerProperties, keySerializer, valueSerializer);
 
         var kafkaTemplate = new KafkaTemplate<>(producerFactory);
         kafkaTemplate.setCloseTimeout(Duration.ofMillis(1_000));

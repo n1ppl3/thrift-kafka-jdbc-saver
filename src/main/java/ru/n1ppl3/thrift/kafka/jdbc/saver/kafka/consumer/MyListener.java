@@ -51,4 +51,9 @@ public class MyListener {
         return receivedCount.longValue();
     }
 
+    // for tests
+    public static void resetCounter() {
+        receivedCount.reset();
+    }
+
 }
