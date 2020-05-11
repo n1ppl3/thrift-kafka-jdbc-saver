@@ -28,9 +28,20 @@ public abstract class BlockingQueueUtils {
     public static <T> List<T> takeElementsWithinTime(BlockingQueue<T> blockingQueue, int count, long timeoutNano) throws InterruptedException {
         List<T> result = new ArrayList<>(count);
 
-        while (timeoutNano > 0  && result.size() < count) {
+        while (timeoutNano > 0 && result.size() < count) {
             long start = System.nanoTime();
-            T element = blockingQueue.poll(timeoutNano, TimeUnit.NANOSECONDS);
+            T element;
+            try {
+                element = blockingQueue.poll(timeoutNano, TimeUnit.NANOSECONDS);
+            } catch (InterruptedException ie) {
+                log.warn("Interrupted, so gonna return {} element(s) back to queue", result.size());
+                result.forEach(t -> {
+                    if (!blockingQueue.offer(t)) {
+                        log.warn("Queue is full, so failed to return back {}", t);
+                    }
+                });
+                throw ie;
+            }
             long stop = System.nanoTime();
             //logger.info("start={}; stop={}; diff={}; element={}", start, stop, (stop - start), element);
 
