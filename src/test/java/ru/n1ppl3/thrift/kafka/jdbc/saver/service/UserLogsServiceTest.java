@@ -64,7 +64,7 @@ class UserLogsServiceTest {
     @Test
     @Order(301)
     void saveAllAsBatchMergedTest2() { // все дубли
-        assertEquals(COUNT, userLogsService.saveAllAsBatchMerged(RECORDS2));
+        assertEquals(0, userLogsService.saveAllAsBatchMerged(RECORDS2));
     }
 
     @Test

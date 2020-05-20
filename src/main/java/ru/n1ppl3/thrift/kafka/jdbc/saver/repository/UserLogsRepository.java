@@ -20,9 +20,9 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 @Repository
 public class UserLogsRepository {
 
-    private static final String INSERT_STATEMENT = "INSERT INTO QW.USER_LOGS (OPER, REMOTEADDR, COMMENTS, SUCCESS, PRS_ID, DATE_IN, ALLADDR, UA, SID, OBJECT_TYPE, OBJECT_ID, MSG_ID) " +
+    private static final String INSERT_STATEMENT = "INSERT INTO USER_LOGS (OPER, REMOTEADDR, COMMENTS, SUCCESS, PRS_ID, DATE_IN, ALLADDR, UA, SID, OBJECT_TYPE, OBJECT_ID, MSG_ID) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String UPSERT_STATEMENT = "MERGE INTO QW.USER_LOGS USING dual ON (MSG_ID=?) " +
+    private static final String UPSERT_STATEMENT = "MERGE INTO USER_LOGS USING dual ON (MSG_ID=?) " +
             "WHEN NOT MATCHED THEN INSERT (OPER, REMOTEADDR, COMMENTS, SUCCESS, PRS_ID, DATE_IN, ALLADDR, UA, SID, OBJECT_TYPE, OBJECT_ID, MSG_ID) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -38,7 +38,7 @@ public class UserLogsRepository {
      *
      */
     public Long getRecordsCount() {
-        return jdbcTemplate.queryForObject("select count(id) from QW.USER_LOGS", Long.class);
+        return jdbcTemplate.queryForObject("select count(id) from USER_LOGS", Long.class);
     }
 
     /**
@@ -142,7 +142,7 @@ public class UserLogsRepository {
      */
     public List<UserLogsRecord> findAllByRemoteAddr(String remoteAddr) {
         String sql =
-            "SELECT OPER, REMOTEADDR, COMMENTS, SUCCESS, PRS_ID, DATE_IN, ALLADDR, UA, SID, OBJECT_TYPE, OBJECT_ID, MSG_ID FROM QW.USER_LOGS WHERE REMOTEADDR = ? ORDER BY ID";
+            "SELECT OPER, REMOTEADDR, COMMENTS, SUCCESS, PRS_ID, DATE_IN, ALLADDR, UA, SID, OBJECT_TYPE, OBJECT_ID, MSG_ID FROM USER_LOGS WHERE REMOTEADDR = ? ORDER BY ID";
         RowMapper<UserLogsRecord> rowMapper = (rs, rowNum) -> new UserLogsRecord()
                 .setOper(rs.getInt(1))
                 .setRemoteAddr(rs.getString(2))
